@@ -72,7 +72,7 @@ export default {
 .about {
     background-color: #4AAE9B;;
     box-shadow: 10px 20px 20px 5px black;
-    height: 35rem;
+    height: 33rem;
     border-radius: 20px;
     display: flex;
     flex-direction: column;

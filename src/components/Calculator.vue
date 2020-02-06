@@ -169,7 +169,7 @@ export default {
 .calculator {
     background-color: #4AAE9B;
     box-shadow: 10px 20px 20px 5px black;
-    height: 35rem;
+    height: 33rem;
     border-radius: 20px;
     width: 20rem;
 }
@@ -208,7 +208,7 @@ export default {
     display: grid;
     grid-gap: 2px;
     grid-template-columns: repeat(4, 1fr);
-    height: 26em;
+    height: 24em;
     width: 19.3rem;
     margin: 0 auto;
 }
