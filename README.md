@@ -1,4 +1,9 @@
-# calculator_app
+## calculator_app
+
+```
+A Simple calculator app with a narcissistic number checker feature, Narcissistic numbers are numbers that is the sum of it's own digits each raised to the power of the length or number digits.
+
+```
 
 ## Project setup
 ```
@@ -20,5 +25,4 @@ npm run build
 npm run lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+**built with vue by chubbyCode**

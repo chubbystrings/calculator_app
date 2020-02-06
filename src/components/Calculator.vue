@@ -44,7 +44,6 @@ export default {
       // eslint-disable-next-line no-useless-escape
       const char = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
       const currentDisplay = document.getElementById('display').textContent;
-      console.log(currentDisplay);
       if (this.keyPressed) {
         let numberToCheck = this.keyPressed.includes('=') ? this.keyPressed.split('=')[1]
           : this.keyPressed;
