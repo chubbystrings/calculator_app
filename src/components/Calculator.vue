@@ -4,7 +4,7 @@
         <h3>Calculator</h3>
          <div class="calculator__display">
           <p id="display">0</p>
-          <small v-if="keyPressed">{{keyPressed}}</small>
+          <!-- <small v-if="keyPressed">{{keyPressed}}</small> -->
          </div>
 
             <div class="calculator__keys">
@@ -27,7 +27,7 @@
                 <button @click="buttonClick" class="rounded" data-action="decimal">.</button>
                 <button @click="buttonClick" class="rounded" data-action="clear">AC</button>
                 <button @click="buttonClick" class="equals" data-action="equals">=</button>
-                <button @click="buttonCheck" class="rounded">Check</button>
+                <button :disabled="!keyPressed" @click="buttonCheck" class="rounded">Check</button>
             </div>
     </div>
 </template>
@@ -36,28 +36,19 @@ export default {
   data() {
     return {
       value: '',
-      keyPressed: '',
+      keyPressed: false,
     };
   },
   methods: {
     buttonCheck() {
-      // eslint-disable-next-line no-useless-escape
-      const char = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
       const currentDisplay = document.getElementById('display').textContent;
-      if (this.keyPressed) {
-        let numberToCheck = this.keyPressed.includes('=') ? this.keyPressed.split('=')[1]
-          : this.keyPressed;
-        const joined = numberToCheck.split('');
-        if (char.test(joined)) {
-          numberToCheck = currentDisplay;
-        }
-        this.$store.dispatch('changeValueToCheck', numberToCheck);
+      if (currentDisplay && currentDisplay !== '0') {
+        this.$store.dispatch('changeValueToCheck', currentDisplay);
       }
-      return true;
     },
-    calculate(n1, operator, n2) {
-      const firstValue = parseFloat(n1);
-      const secondValue = parseFloat(n2);
+    calculate(valueOne, operator, valueTwo) {
+      const firstValue = parseFloat(valueOne);
+      const secondValue = parseFloat(valueTwo);
 
       if (operator === 'add') return firstValue + secondValue;
       if (operator === 'subtract') return firstValue - secondValue;
@@ -68,11 +59,6 @@ export default {
 
     buttonClick($event) {
       const key = $event.target;
-      if (key.textContent && key.textContent !== 'CE') {
-        this.keyPressed += ` ${key.textContent}`;
-      } else {
-        this.keyPressed = '';
-      }
       const calculator = document.getElementById('calculator');
       const display = document.getElementById('display');
       const { action } = $event.target.dataset;
@@ -86,6 +72,7 @@ export default {
         } else {
           display.textContent = displayNum + keyContent;
         }
+        this.keyPressed = true;
         calculator.dataset.previousKeyType = 'number';
       }
       if (action === 'add' || action === 'subtract' || action === 'multiply' || action === 'division') {
@@ -140,7 +127,7 @@ export default {
         calculator.dataset.modValue = '';
         calculator.dataset.operator = '';
         calculator.dataset.previousKeyType = '';
-        this.keyPressed = '';
+        this.keyPressed = false;
       }
 
       if (action === 'equals') {
@@ -153,9 +140,6 @@ export default {
             secondValue = calculator.dataset.modValue;
           }
           display.textContent = this.calculate(firstValue, operator, secondValue);
-          if (key.textContent === '=') {
-            this.keyPressed += ` ${this.calculate(firstValue, operator, secondValue)}`;
-          }
         }
 
         calculator.dataset.modValue = secondValue;
@@ -178,23 +162,6 @@ export default {
     position: relative;
     text-align: center;
 }
-
-
-/* .calculator__keys > * :active::before,
-.calculator__keys > .is-depressed::before {
-    background-color: rgba(0,0,0,0.2);
-    bottom: 0;
-    box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.5) inset;
-    content:"";
-    left: 0;
-    opacity: 0.3;
-    position: absolute;
-    right: 0;
-    top: 0;
-    z-index: 1;
-
-} */
-
 
 .calculator__display {
     background-color: #4AAE9B;
@@ -224,6 +191,14 @@ export default {
 
 .calculator__keys button:hover {
   background-color: #4AAE9B;
+}
+
+.calculator__keys button[disabled],
+.calculator__keys button[disabled]:hover,
+.calculator__keys button[disabled]:active{
+  background-color: gray;
+  cursor: not-allowed;
+  color: white;
 }
 .equals {
     width: 5.7em;
