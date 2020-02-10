@@ -1,11 +1,15 @@
 <template>
   <div class="about">
     <h3>Narcissitic Number Checker</h3>
-    <input type="number" v-model="value" @focus="message = ''">
+    <input placeholder="hint? Type 153" type="number" v-model="value"
+    @focus="message = '', valueType = ''">
     <transition name="fade" appear>
     <p v-if="message">{{message}}</p>
      </transition>
-    <button @click="narcissistic" class="checkBtn">{{checkValue}}</button>
+    <button
+    @click="narcissistic" class="checkBtn">
+    {{ value ? 'Check' : checkValue}}
+    </button>
   </div>
 </template>
 <script>
@@ -14,6 +18,7 @@ import { mapState } from 'vuex';
 export default {
   data() {
     return {
+      valueType: '',
       value: '',
       message: '',
     };
@@ -29,7 +34,14 @@ export default {
       calculatorChecker: 'valueToCheck',
     }),
     checkValue() {
-      return this.value ? 'Check' : 'Enter A number';
+      if (this.valueType === 'ok') {
+        return 'Yay!!';
+      }
+      if (this.valueType === 'not') {
+        return 'Oops!!';
+      }
+
+      return 'Enter A Number';
     },
   },
   methods: {
@@ -48,8 +60,10 @@ export default {
       // console.log(num);
       // condition to validate narcissistic number
       if (num === arrSum) {
+        this.valueType = 'ok';
         this.message = `Nice, ${value} is a Narcissistic Number!!`;
       } else {
+        this.valueType = 'not';
         this.message = `Oops, ${value} is not a Narcissistic Number!!`;
       }
 
@@ -80,6 +94,9 @@ export default {
     filter: brightness(70%);
 }
 
+#hint {
+  cursor: pointer;
+}
  .about input {
     margin: 0 auto;
     font: inherit;
