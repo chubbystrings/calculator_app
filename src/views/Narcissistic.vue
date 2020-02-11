@@ -9,7 +9,15 @@
     <button
     @click="narcissistic" class="checkBtn">
     {{ value ? 'Check' : checkValue}}
+    <span v-if="valueType === 'not'">&#128579;</span>
+    <span v-if="valueType === 'ok'">&#128521;</span>
     </button>
+
+    <small id="aboutNars">
+      A Simple narcissistic number checker,
+      Narcissistic numbers are numbers that are the sum of it's own
+      digits each raised to the power of the length or number digits.
+    </small>
   </div>
 </template>
 <script>
@@ -111,6 +119,11 @@ export default {
     outline: none;
     border: 1px solid #4AAE9B;
     background-color: #eee;
+  }
+  #aboutNars {
+    position: absolute;
+    bottom: 4rem;
+    padding: 0.5rem;
   }
 
 .checkBtn {
